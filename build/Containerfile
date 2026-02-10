@@ -1,0 +1,22 @@
+# Build stage
+FROM golang:1.9.7-alpine AS builder
+
+WORKDIR /app
+
+COPY go.mod main.go cline.gbnf ./
+
+# Build the application
+RUN CGO_ENABLED=0 GOOS=linux go build -o gpt-oss-ollama-cline-adapter . && rm -f go.mod main.go
+
+# Runtime stage
+FROM docker.io/alpine:3.9.6
+
+RUN apk add --no-cache ca-certificates tini
+
+COPY --from=builder /app/gpt-oss-ollama-cline-adapter /app/gpt-oss-ollama-cline-adapter
+COPY --from=builder /app/cline.gbnf /app/cline.gbnf
+
+USER nobody
+
+ENTRYPOINT ["tini", "--"]
+CMD ["/app/gpt-oss-ollama-cline-adapter", "--config", "/app/cline.gbnf"]
