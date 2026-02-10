@@ -31,7 +31,7 @@ This project is based on workaround from Reddit Thread [Making GPT-OSS 20B and C
 + Go to Cline's settings and configure parameters  
   API Provider: OpenAPI Compatible  
   URL: http://localhost:8000  
-  OpenAPI Compatible API Key: <any value>  
+  OpenAPI Compatible API Key: any value
   Model ID: gpt-oss:20b (or gpt-oss:120b)  
 
 + Run some Cline task to test how it works
