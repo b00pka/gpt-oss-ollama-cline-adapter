@@ -1,0 +1,19 @@
+services:
+
+  gpt-oss-ollama-cline-adapter:
+    image: gpt-oss-ollama-cline-adapter:0.0.1
+    build:
+      context: build
+      dockerfile: Containerfile
+    container_name: gpt-oss-ollama-cline-adapter
+    hostname: gpt-oss-ollama-cline-adapter
+    restart: unless-stopped
+    ports: [ 8000:8000 ]
+
+    environment:
+      - TARGET_BASE_URL=http://ollama:11434/v1
+      - TOOL_CALL_ADAPTER_HOST=0.0.0.0
+      - TOOL_CALL_ADAPTER_PORT=8000
+
+    volumes:
+      - ./configs/cline.gbnf:/app/cline.gbnf:r
